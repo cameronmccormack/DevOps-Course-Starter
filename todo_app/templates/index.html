@@ -4,15 +4,84 @@
 {% block content %}
   <div class="jumbotron">
     <h1 class="display-4">To-Do App</h1>
-    <p class="lead">Just another to-do app.</p>
+    <p class="lead">Cameron McCormack's Exercise 1 To-Do App</p>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <label for="add-item">Create new item:</label>
+      <form action="/addItem" method="post">
+        <input type="text" id="add-item" name="add-item" required size="30">
+        <button type="submit" class="btn btn-primary">Add item</button>
+      </form>
+    </div>
   </div>
 
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
-      <ul class="list-group mb-4">
-        <!-- List the todo items here -->
-      </ul>
+      <div class="list-group mb-4">
+        {% for item in not_started %}
+          <a class="list-group-item list-group-item-danger flex-column align-items-start">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="badge badge-danger badge-pill">Not started</div>
+              <form action="/delete/{{ item.id }}" method="post" class="ml-4">
+                <button type="submit" class="btn btn-dark btn-sm">Delete item</button>
+              </form>
+            </div>
+            <p class="mt-3 mb-3">{{ item.title }}</p>
+            <div class="d-flex w-100 align-items-start">
+              <form action="/markInProgress/{{ item.id }}" method="post" class="w-50">
+                <button type="submit" class="btn btn-warning status-button w-100">Mark as in progress</button>
+              </form>
+              <form action="/markDone/{{ item.id }}" method="post" class="ml-4 w-50">
+                <button type="submit" class="btn btn-success status-button w-100">Mark as done</button>
+              </form>
+            </div>
+          </a>
+        {% endfor %}
+        {% for item in in_progress %}
+        <a class="list-group-item list-group-item-warning flex-column align-items-start">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="badge badge-warning badge-pill">In progress</div>
+            <form action="/delete/{{ item.id }}" method="post" class="ml-4">
+              <button type="submit" class="btn btn-dark btn-sm">Delete item</button>
+            </form>
+          </div>
+          <p class="mt-3 mb-3">{{ item.title }}</p>
+          <div class="d-flex w-100 align-items-start">
+            <form action="/markNotStarted/{{ item.id }}" method="post" class="w-50">
+              <button type="submit" class="btn btn-danger w-100">Mark as not started</button>
+            </form>
+            <form action="/markDone/{{ item.id }}" method="post" class="ml-4 w-50">
+              <button type="submit" class="btn btn-success w-100">Mark as done</button>
+            </form>
+          </div>
+        </a>
+        {% endfor %}
+        {% for item in done %}
+        <a class="list-group-item list-group-item-success flex-column align-items-start">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="badge badge-success badge-pill">Done</div>
+            <form action="/delete/{{ item.id }}" method="post" class="ml-4">
+              <button type="submit" class="btn btn-dark btn-sm">Delete item</button>
+            </form>
+          </div>
+          <p class="mt-3 mb-3">{{ item.title }}</p>
+          <div class="d-flex w-100 align-items-start">
+            <form action="/markNotStarted/{{ item.id }}" method="post" class="w-50">
+              <button type="submit" class="btn btn-danger w-100">Mark as not started</button>
+            </form>
+            <form action="/markInProgress/{{ item.id }}" method="post" class="ml-4 w-50">
+              <button type="submit" class="btn btn-warning w-100">Mark as in progress</button>
+            </form>
+          </div>
+        </a>
+        {% endfor %}
+        {% if not_started|length == 0 and in_progress|length == 0 and done|length == 0 %}
+          <a class="list-group-item"><i>No items added yet. Enter a new item in the box above.</i></a>
+        {% endif %}
+      </div>
     </div>
   </div>
 {% endblock %}
