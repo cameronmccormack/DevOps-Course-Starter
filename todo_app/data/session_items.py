@@ -22,14 +22,9 @@ def get_items_by_status():
         done: The list of items with Done status
     """
     items = get_items()
-    not_started, in_progress, done = [], [], []
-    for item in items:
-        if (item['status'] == Status.DONE):
-            done.append(item)
-        elif (item['status'] == Status.IN_PROGRESS):
-            in_progress.append(item)
-        else:
-            not_started.append(item)
+    not_started = [item for item in items if item['status'] == Status.NOT_STARTED]
+    in_progress = [item for item in items if item['status'] == Status.IN_PROGRESS]
+    done = [item for item in items if item['status'] == Status.DONE]
     return not_started, in_progress, done
 
 
