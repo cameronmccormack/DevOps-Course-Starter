@@ -1,5 +1,6 @@
 from todo_app.repository import trello_repository
 from todo_app.models.status import Status
+from todo_app.models.item import Item
 
 
 def get_items():
@@ -9,7 +10,8 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    return trello_repository.fetch_cards()
+    not_started, in_progress, done = get_items_by_status()
+    return not_started + in_progress + done
 
 
 def get_items_by_status():
@@ -21,14 +23,10 @@ def get_items_by_status():
         in_progress: The list of items with In Progress status
         done: The list of items with Done status
     """
-    items = get_items()
-    not_started = [
-        item for item in items if item.status == Status.NOT_STARTED
-    ]
-    in_progress = [
-        item for item in items if item.status == Status.IN_PROGRESS
-    ]
-    done = [item for item in items if item.status == Status.DONE]
+    lists_response = trello_repository.fetch_lists()
+    not_started = map_cards_for_status(lists_response, Status.NOT_STARTED)
+    in_progress = map_cards_for_status(lists_response, Status.IN_PROGRESS)
+    done = map_cards_for_status(lists_response, Status.DONE)
     return not_started, in_progress, done
 
 
@@ -78,3 +76,21 @@ def delete_item(id):
         id: The ID of the item.
     """
     trello_repository.delete_card(id)
+
+
+def map_cards_for_status(response, status):
+    """
+    Maps cards of a given status from Trello lists response to display class.
+
+    Args:
+        response: The response from the Trello lists endpoint.
+        status: The status of the cards to map and return.
+
+    Returns:
+        items: An list of mapped Item objects with the given status.
+    """
+    list_id = trello_repository.get_list_id_for_status(status)
+    trello_cards = next(
+        list for list in response if list["id"] == list_id
+    )["cards"]
+    return [Item.from_trello_card(card, status) for card in trello_cards]
