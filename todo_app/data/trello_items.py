@@ -30,20 +30,6 @@ def get_items_by_status():
     return not_started, in_progress, done
 
 
-def get_item(id):
-    """
-    Fetches the saved item with the specified ID from Trello.
-
-    Args:
-        id: The ID of the item.
-
-    Returns:
-        item: The saved item, or None if no items match the specified ID.
-    """
-    items = get_items()
-    return next((item for item in items if item.id == id), None)
-
-
 def add_item(title):
     """
     Adds a new item with the specified title to Trello with not started status.

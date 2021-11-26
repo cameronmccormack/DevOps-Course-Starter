@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template, redirect
 from flask.globals import request
 
-from todo_app.data import trello_items
+from todo_app.data import trello_items as item_service
 from todo_app.flask_config import Config
 from todo_app.models.status import Status
 
@@ -12,7 +12,7 @@ app.config.from_object(Config())
 
 @app.route('/')
 def index():
-    not_started, in_progress, done = trello_items.get_items_by_status()
+    not_started, in_progress, done = item_service.get_items_by_status()
     return render_template(
         'index.html',
         not_started=not_started,
@@ -24,29 +24,29 @@ def index():
 @app.route('/addItem', methods=['POST'])
 def add_item():
     item = request.form.get('add-item')
-    trello_items.add_item(item)
+    item_service.add_item(item)
     return redirect('/')
 
 
 @app.route('/markNotStarted/<id>', methods=['POST'])
 def mark_not_started(id):
-    trello_items.update_status(id, Status.NOT_STARTED)
+    item_service.update_status(id, Status.NOT_STARTED)
     return redirect('/')
 
 
 @app.route('/markInProgress/<id>', methods=['POST'])
 def mark_in_progress(id):
-    trello_items.update_status(id, Status.IN_PROGRESS)
+    item_service.update_status(id, Status.IN_PROGRESS)
     return redirect('/')
 
 
 @app.route('/markDone/<id>', methods=['POST'])
 def mark_done(id):
-    trello_items.update_status(id, Status.DONE)
+    item_service.update_status(id, Status.DONE)
     return redirect('/')
 
 
 @app.route('/delete/<id>', methods=['POST'])
 def delete_item(id):
-    trello_items.delete_item(id)
+    item_service.delete_item(id)
     return redirect('/')
