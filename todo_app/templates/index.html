@@ -21,7 +21,7 @@
     <div class="col-md-12">
       <h2>Items</h2>
       <div class="list-group mb-4">
-        {% for item in not_started %}
+        {% for item in view_model.not_started %}
           <a class="list-group-item list-group-item-danger flex-column align-items-start">
             <div class="d-flex align-items-center justify-content-between">
               <div class="badge badge-danger badge-pill">Not started</div>
@@ -40,7 +40,7 @@
             </div>
           </a>
         {% endfor %}
-        {% for item in in_progress %}
+        {% for item in view_model.in_progress %}
         <a class="list-group-item list-group-item-warning flex-column align-items-start">
           <div class="d-flex align-items-center justify-content-between">
             <div class="badge badge-warning badge-pill">In progress</div>
@@ -59,7 +59,7 @@
           </div>
         </a>
         {% endfor %}
-        {% for item in done %}
+        {% for item in view_model.done %}
         <a class="list-group-item list-group-item-success flex-column align-items-start">
           <div class="d-flex align-items-center justify-content-between">
             <div class="badge badge-success badge-pill">Done</div>
@@ -78,7 +78,7 @@
           </div>
         </a>
         {% endfor %}
-        {% if not_started|length == 0 and in_progress|length == 0 and done|length == 0 %}
+        {% if view_model.not_started|length == 0 and view_model.in_progress|length == 0 and view_model.done|length == 0 %}
           <a class="list-group-item"><i>No items added yet. Enter a new item in the box above.</i></a>
         {% endif %}
       </div>

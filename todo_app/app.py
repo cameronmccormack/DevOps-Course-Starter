@@ -5,6 +5,7 @@ from flask.globals import request
 from todo_app.data import trello_items as item_service
 from todo_app.flask_config import Config
 from todo_app.models.status import Status
+from todo_app.models.view_model import ViewModel
 
 app = Flask(__name__)
 app.config.from_object(Config())
@@ -13,12 +14,8 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     not_started, in_progress, done = item_service.get_items_by_status()
-    return render_template(
-        'index.html',
-        not_started=not_started,
-        in_progress=in_progress,
-        done=done
-    )
+    item_view_model = ViewModel(not_started, in_progress, done)
+    return render_template('index.html', view_model=item_view_model)
 
 
 @app.route('/addItem', methods=['POST'])
