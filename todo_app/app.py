@@ -14,8 +14,21 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     not_started, in_progress, done = item_service.get_items_by_status()
-    item_view_model = ViewModel(not_started, in_progress, done)
+    show_all_items = (
+        True if (request.args.get("show_all_items") == "true") else False
+    )
+    item_view_model = ViewModel(not_started, in_progress, done, show_all_items)
     return render_template('index.html', view_model=item_view_model)
+
+
+@app.route('/showHiddenItems/')
+def show_hidden_items():
+    return redirect('/?show_all_items=true')
+
+
+@app.route('/hideExpandedItems/')
+def hide_exapanded_items():
+    return redirect('/?show_all_items=false')
 
 
 @app.route('/addItem', methods=['POST'])

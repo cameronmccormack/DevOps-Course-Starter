@@ -4,7 +4,7 @@
 {% block content %}
   <div class="jumbotron">
     <h1 class="display-4">To-Do App</h1>
-    <p class="lead">Cameron McCormack's Exercise 1 To-Do App</p>
+    <p class="lead">Cameron McCormack's Exercise 3 To-Do App</p>
   </div>
 
   <div class="row">
@@ -21,6 +21,26 @@
     <div class="col-md-12">
       <h2>Items</h2>
       <div class="list-group mb-4">
+
+        {% if view_model.is_hiding_done_items %}
+        <a class="list-group-item">
+          <div class="row align-items-center">
+            <i>Some older completed items are being hidden.</i>
+            <form action="/showHiddenItems/" method="get" class="ml-4">
+              <button type="submit" class="btn btn-primary">Show all completed items</button>
+            </form>
+          </div>
+        </a>
+        {% elif view_model.has_expanded_done_items %}
+        <a class="list-group-item">
+          <div class="row align-items-center">
+            <i>Older completed items have been expanded.</i>
+            <form action="/hideExpandedItems/" method="get" class="ml-4">
+              <button type="submit" class="btn btn-primary">Hide older completed items</button>
+            </form>
+          </div>
+        </a>
+        {% endif %}
         {% for item in view_model.not_started %}
           <a class="list-group-item list-group-item-danger flex-column align-items-start">
             <div class="d-flex align-items-center justify-content-between">
@@ -59,7 +79,7 @@
           </div>
         </a>
         {% endfor %}
-        {% for item in view_model.done %}
+        {% for item in view_model.high_priority_done_items %}
         <a class="list-group-item list-group-item-success flex-column align-items-start">
           <div class="d-flex align-items-center justify-content-between">
             <div class="badge badge-success badge-pill">Done</div>
@@ -78,7 +98,7 @@
           </div>
         </a>
         {% endfor %}
-        {% if view_model.not_started|length == 0 and view_model.in_progress|length == 0 and view_model.done|length == 0 %}
+        {% if view_model.not_started|length == 0 and view_model.in_progress|length == 0 and view_model.high_priority_done_items|length == 0 %}
           <a class="list-group-item"><i>No items added yet. Enter a new item in the box above.</i></a>
         {% endif %}
       </div>
