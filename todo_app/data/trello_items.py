@@ -40,7 +40,8 @@ class TrelloItemProvider:
 
     def add_item(self, title):
         """
-        Adds a new item with the specified title to Trello with not started status.
+        Adds a new item with the specified title to Trello with not started
+        status.
 
         Args:
             title: The title of the item.
@@ -71,7 +72,8 @@ class TrelloItemProvider:
 
     def map_cards_for_status(self, response, status):
         """
-        Maps cards of a given status from Trello lists response to display class.
+        Maps cards of a given status from Trello lists response to display
+        class.
 
         Args:
             response: The response from the Trello lists endpoint.

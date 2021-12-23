@@ -40,7 +40,10 @@ class TrelloRepository:
 
     def build_trello_url(self, path, extra_query_params={}):
         query_params = self.auth_query_params | extra_query_params
-        return f"{self.config.BASE_URL}{path}?{urllib.parse.urlencode(query_params)}"
+        return (
+            f"{self.config.BASE_URL}{path}"
+            + f"?{urllib.parse.urlencode(query_params)}"
+        )
 
     def get_list_id_for_status(self, status):
         if status == Status.NOT_STARTED:
