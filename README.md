@@ -59,7 +59,7 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 
 ## Test Coverage
 
-Once all of the dependencies have been installed, all unit and integrations tests can be run with:
+Once all of the dependencies have been installed, all unit and integration tests can be run with:
 ```bash
 $ poetry run pytest
 ```

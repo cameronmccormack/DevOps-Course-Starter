@@ -34,9 +34,9 @@ class ViewModel:
     def has_expanded_done_items(self):
         return (
             len(self._done) > self.show_all_done_items_threshold
-            and len(
-                self.recent_done_items()
-            ) < len(self.high_priority_done_items)
+            and len(self.recent_done_items) < len(
+                self.high_priority_done_items
+            )
         )
 
     @property
