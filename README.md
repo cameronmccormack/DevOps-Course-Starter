@@ -40,7 +40,7 @@ These board and list IDs must be defined (along with the API Key and Token) in t
 
 ## Running the App
 
-Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
+Once all of the dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
 ```bash
 $ poetry run flask run
 ```
@@ -56,3 +56,16 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Test Coverage
+
+Once all of the dependencies have been installed, all unit and integration tests can be run with:
+```bash
+$ poetry run pytest
+```
+
+Individual tests can be run with the keyword `-k` flag, for example:
+
+```bash
+$ poetry run pytest -k test_view_model_with_no_items
+```
