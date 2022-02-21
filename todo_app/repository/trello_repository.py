@@ -39,7 +39,7 @@ class TrelloRepository:
         requests.put(url)
 
     def build_trello_url(self, path, extra_query_params={}):
-        query_params = self.auth_query_params | extra_query_params
+        query_params = {**self.auth_query_params, **extra_query_params}
         return (
             f"{self.config.BASE_URL}{path}"
             + f"?{urllib.parse.urlencode(query_params)}"
