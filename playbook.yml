@@ -1,0 +1,78 @@
+- name: Install ToDo app on new web servers
+  hosts: webservers
+  remote_user: ec2-user
+
+  vars_prompt:
+    - name: secret_key
+      prompt: What is the app secret key?
+
+    - name: trello_api_key
+      prompt: What is the Trello API key?
+
+    - name: trello_token
+      prompt: What is the Trello Token?
+
+    - name: board_id
+      prompt: What is the unqiue ID for the Trello board?
+
+    - name: not_started_list_id
+      prompt: What is the unique ID for the Not Started list on the Trello board?
+
+    - name: in_progress_list_id
+      prompt: What is the unique ID for the In Progress list on the Trello board?
+
+    - name: done_list_id
+      prompt: What is the unqiue ID for the Done list on the Trello board?
+
+  tasks:
+  - name: Install git
+    yum:
+      name: git
+      state: latest
+    become: yes
+
+  - name: Install python3
+    yum:
+      name: python3
+      state: latest
+    become: yes
+
+  - name: Install poetry
+    ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 -
+    args:
+      creates: ~/.local/bin/poetry
+
+  - name: Create directory for ToDo app
+    ansible.builtin.file:
+      path: /opt/todoapp
+      state: directory
+      mode: '777'
+    become: yes
+
+  - name: Clone the main branch of the ToDo app
+    ansible.builtin.git:
+      repo: https://github.com/cameronmccormack/DevOps-Course-Starter.git
+      dest: /opt/todoapp
+      single_branch: yes
+      version: main
+
+  - name: Install project dependencies
+    ansible.builtin.shell: source ~/.bash_profile && (cd /opt/todoapp;poetry install)
+
+  - name: Create dotenv file
+    ansible.builtin.template:
+      src: ~/.env.j2
+      dest: /opt/todoapp/.env
+
+  - name: Copy service file
+    ansible.builtin.copy:
+      src: ~/todoapp.service
+      dest: /etc/systemd/system/todoapp.service
+      mode: '777'
+    become: yes
+
+  - name: Start the app
+    ansible.builtin.systemd:
+      name: todoapp
+      state: started
+    become: yes
