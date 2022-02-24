@@ -57,6 +57,14 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
+## Running the App on the VM
+
+On the control node, run the following:
+
+```
+ ansible-playbook playbook.yml -i ansible-inventory
+```
+
 ## Test Coverage
 
 Once all of the dependencies have been installed, all unit and integration tests can be run with:
