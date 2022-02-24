@@ -46,7 +46,7 @@
     ansible.builtin.file:
       path: /opt/todoapp
       state: directory
-      mode: '777'
+      mode: '755'
     become: yes
 
   - name: Clone the main branch of the ToDo app
@@ -68,7 +68,7 @@
     ansible.builtin.copy:
       src: ~/todoapp.service
       dest: /etc/systemd/system/todoapp.service
-      mode: '777'
+      mode: '755'
     become: yes
 
   - name: Start the app
