@@ -40,7 +40,17 @@ These board and list IDs must be defined (along with the API Key and Token) in t
 
 ## Running the App
 
-Once all of the dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
+### Development mode
+
+Once all of the dependencies have been installed, start the Flask app in development mode within a Docker container by running the following command:
+
+```bash
+$ docker-compose -f docker-compose.development.yml up --build
+```
+
+This container will use the environment variables contained within the `.env.development` file.
+
+Alternatively, development mode can be run within the Poetry environment outside a container by running:
 ```bash
 $ poetry run flask run
 ```
@@ -56,6 +66,16 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+### Production mode
+
+Once all of the dependencies have been installed, start the Flask app in development mode within a Docker container by running the following command:
+
+```bash
+$ docker-compose up --build
+```
+
+This container will use the environment variables contained within the `.env` file.
 
 ## Running the App on the VM
 
