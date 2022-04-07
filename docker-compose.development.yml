@@ -8,6 +8,9 @@ services:
       target: dev
     image: todo-app:dev
     env_file:
-      - .env.development
+      - .env
     ports:
       - 5000:5000
+    volumes:
+      - ./:/app
+      - app/.venv/

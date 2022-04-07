@@ -48,8 +48,6 @@ Once all of the dependencies have been installed, start the Flask app in develop
 $ docker-compose -f docker-compose.development.yml up --build
 ```
 
-This container will use the environment variables contained within the `.env.development` file.
-
 Alternatively, development mode can be run within the Poetry environment outside a container by running:
 ```bash
 $ poetry run flask run
@@ -74,8 +72,6 @@ Once all of the dependencies have been installed, start the Flask app in develop
 ```bash
 $ docker-compose up --build
 ```
-
-This container will use the environment variables contained within the `.env` file.
 
 ## Running the App on the VM
 
