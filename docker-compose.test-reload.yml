@@ -5,7 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: test
-    image: todo-app:test
+      target: test-reload
+    image: todo-app:test-reload
     env_file:
       - .env.test
+    volumes:
+      - ./:/app
+      - app/.venv/
