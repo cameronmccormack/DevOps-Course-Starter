@@ -1,5 +1,9 @@
 name: Continuous Integration
-on: [push]
+on: [push, pull-request]
+  paths-ignore:
+  - 'README.md'
+  - 'documentation/**'
+  - 
 jobs:
   test:
     name: Build and test
