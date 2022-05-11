@@ -12,3 +12,6 @@ ENTRYPOINT ["./entrypoint.sh"]
 
 FROM base as dev
 ENTRYPOINT ["poetry", "run", "flask", "run", "-h", "0.0.0.0", "-p", "5000"]
+
+FROM base as test
+ENTRYPOINT ["poetry", "run", "ptw", "--poll"]
