@@ -1,0 +1,22 @@
+name: Continuous Integration
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'documentation/**'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'documentation/**'
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: docker-compose -f docker-compose.test.yml up --build
