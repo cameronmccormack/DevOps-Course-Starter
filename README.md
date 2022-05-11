@@ -105,8 +105,7 @@ To run the tests in a Docker container, run:
 ```bash
 $ docker-compose -f docker-compose.test.yml up --build
 ```
- 
- 
+
 To run the tests in a Docker container and set them to re-run on code changes, run:
 
 ```bash
