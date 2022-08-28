@@ -93,3 +93,21 @@ Individual tests can be run with the keyword `-k` flag, for example:
 ```bash
 $ poetry run pytest -k test_view_model_with_no_items
 ```
+
+To set the tests to re-run on code changes, run:
+
+```bash
+$ poetry run ptw
+```
+
+To run the tests in a Docker container, run:
+
+```bash
+$ docker-compose -f docker-compose.test.yml up --build
+```
+
+To run the tests in a Docker container and set them to re-run on code changes, run:
+
+```bash
+$ docker-compose -f docker-compose.test-reload.yml up --build
+```
