@@ -111,3 +111,7 @@ To run the tests in a Docker container and set them to re-run on code changes, r
 ```bash
 $ docker-compose -f docker-compose.test-reload.yml up --build
 ```
+
+## Deployed App
+
+The app is deployed to Heroku via a CD pipeline on the `main` branch and can be viewed at the following URL: http://cameronmccormack-todo-app.herokuapp.com/
