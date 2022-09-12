@@ -8,7 +8,7 @@ RUN poetry install --no-root --no-dev
 FROM base as prod
 COPY . /app/
 RUN chmod +x ./entrypoint.sh
-ENTRYPOINT ["./entrypoint.sh"]
+CMD poetry run gunicorn wsgi --bind "0.0.0.0:${PORT:-5000}"
 
 FROM base as dev
 ENTRYPOINT ["poetry", "run", "flask", "run", "-h", "0.0.0.0", "-p", "5000"]
