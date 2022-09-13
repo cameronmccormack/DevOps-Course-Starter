@@ -44,18 +44,5 @@ jobs:
       - name: Push image to Docker Hub 
         run: docker push cameronmccormack/todo-app:latest && docker push cameronmccormack/todo-app:${{ github.sha }}
 
-      - name: Login to Heroku Container Registry
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login 
-
-      - name: Tag image for Heroku
-        run: docker tag cameronmccormack/todo-app:${{ github.sha }} registry.heroku.com/cameronmccormack-todo-app/web
-
-      - name: Push to Heroku Container Registry
-        run: docker push registry.heroku.com/cameronmccormack-todo-app/web
-
-      - name: Release image for display on Heroku Dyno
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a cameronmccormack-todo-app web
+      - name: Re-pull image to Azure Web app
+        run: curl -dH -X --fail POST '${{ secrets.AZURE_WEBHOOK_URL }}'

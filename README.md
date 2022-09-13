@@ -114,4 +114,4 @@ $ docker-compose -f docker-compose.test-reload.yml up --build
 
 ## Deployed App
 
-The app is deployed to Heroku via a CD pipeline on the `main` branch and can be viewed at the following URL: http://cameronmccormack-todo-app.herokuapp.com/
+The app is deployed to Azure via a CD pipeline on the `main` branch and can be viewed at the following URL: https://cameronmccormack-todo-app.azurewebsites.net/
