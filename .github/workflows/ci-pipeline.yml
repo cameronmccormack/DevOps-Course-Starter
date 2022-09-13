@@ -45,4 +45,4 @@ jobs:
         run: docker push cameronmccormack/todo-app:latest && docker push cameronmccormack/todo-app:${{ github.sha }}
 
       - name: Re-pull image to Azure Web app
-        run: curl -dH -X POST '${{ secrets.AZURE_WEBHOOK_URL }}'
+        run: curl -dH -X --fail POST '${{ secrets.AZURE_WEBHOOK_URL }}'
