@@ -6,23 +6,11 @@
     - name: secret_key
       prompt: What is the app secret key?
 
-    - name: trello_api_key
-      prompt: What is the Trello API key?
+    - name: db_name
+      prompt: What is the name of the MongoDB database?
 
-    - name: trello_token
-      prompt: What is the Trello Token?
-
-    - name: board_id
-      prompt: What is the unqiue ID for the Trello board?
-
-    - name: not_started_list_id
-      prompt: What is the unique ID for the Not Started list on the Trello board?
-
-    - name: in_progress_list_id
-      prompt: What is the unique ID for the In Progress list on the Trello board?
-
-    - name: done_list_id
-      prompt: What is the unqiue ID for the Done list on the Trello board?
+    - name: db_primary_connection_string
+      prompt: What is the primary MongoDB connection string?
 
   tasks:
   - name: Install git

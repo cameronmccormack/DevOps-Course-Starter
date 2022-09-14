@@ -1,5 +1,4 @@
 from todo_app.models.status import Status
-from dateutil.parser import isoparse
 
 
 class Item:
@@ -7,16 +6,19 @@ class Item:
         self,
         id,
         name,
-        last_modified_datetime_string,
+        last_status_change_datetime,
         status=Status.NOT_STARTED
     ):
         self.id = id
         self.name = name
+        self.last_status_change_datetime = last_status_change_datetime
         self.status = status
-        self.last_status_change_datetime = isoparse(
-            last_modified_datetime_string
-        )
 
     @classmethod
-    def from_trello_card(cls, card, status):
-        return cls(card["id"], card["name"], card["dateLastActivity"], status)
+    def from_mongo_db_item(cls, card):
+        return cls(
+            card["_id"],
+            card["name"],
+            card["last_status_change_datetime"],
+            card["status"]
+        )

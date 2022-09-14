@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template, redirect
 from flask.globals import request
 
-from todo_app.data.trello_items import TrelloItemProvider as ItemProvider
+from todo_app.data.mongo_db_items import MongoDbItemProvider as ItemProvider
 from todo_app.flask_config import Config
 from todo_app.models.status import Status
 from todo_app.models.view_model import ViewModel
