@@ -1,5 +1,6 @@
 from datetime import datetime
 import pymongo
+from bson import ObjectId
 
 from todo_app.mongo_db_config import Config
 from todo_app.models.status import Status
@@ -36,7 +37,7 @@ class MongoDbRepository:
 
     def update_status(self, id, status):
         self.collection.update_one(
-            {"_id": id},
+            {"_id": ObjectId(id)},
             {"$set": {
                 "status": status,
                 "last_status_change_datetime": datetime.now().isoformat()

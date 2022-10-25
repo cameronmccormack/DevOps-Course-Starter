@@ -16,20 +16,14 @@ class MongoDbItemProvider:
             in_progress: The list of items with In Progress status
             done: The list of items with Done status
         """
-        not_started = self.map_mongo_db_items_to_display_class(
-            self.mongo_db_repository.get_all_cards_for_status(
-                Status.NOT_STARTED
-            )
+        not_started = self.get_items_as_display_class(
+            Status.NOT_STARTED
         )
-        in_progress = self.map_mongo_db_items_to_display_class(
-            self.mongo_db_repository.get_all_cards_for_status(
-                Status.IN_PROGRESS
-            )
+        in_progress = self.get_items_as_display_class(
+            Status.IN_PROGRESS
         )
-        done = self.map_mongo_db_items_to_display_class(
-            self.mongo_db_repository.get_all_cards_for_status(
-                Status.DONE
-            )
+        done = self.get_items_as_display_class(
+            Status.DONE
         )
         return not_started, in_progress, done
 
@@ -65,7 +59,7 @@ class MongoDbItemProvider:
         """
         self.mongo_db_repository.delete_card(id)
 
-    def map_mongo_db_items_to_display_class(self, mongo_db_items):
+    def get_items_as_display_class(self, status):
         """
         Maps card items from MongoDB to display class.
 
@@ -75,4 +69,7 @@ class MongoDbItemProvider:
         Returns:
             items: An list of mapped Item objects with the given status.
         """
-        return [Item.from_mongo_db_item(card) for card in mongo_db_items]
+        items = self.mongo_db_repository.get_all_cards_for_status(
+            status
+        )
+        return [Item.from_mongo_db_item(card) for card in items]
