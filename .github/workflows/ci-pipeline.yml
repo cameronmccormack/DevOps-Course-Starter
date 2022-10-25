@@ -21,9 +21,10 @@ jobs:
       - name: Run tests
         run: docker-compose -f docker-compose.test.yml up --build
   deploy:
-    name: Deploy to Docker Hub and Heroku
+    name: Deploy to Docker Hub and Azure
     runs-on: ubuntu-latest
     needs: test
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
