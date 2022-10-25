@@ -39,7 +39,7 @@ def create_app():
             not_started,
             in_progress,
             done,
-            current_user.role == UserRoles.WRITER,
+            current_user.is_anonymous or current_user.role == UserRoles.WRITER,
             show_all_items
         )
         return render_template('index.html', view_model=item_view_model)
