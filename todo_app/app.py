@@ -1,9 +1,11 @@
 from flask import Flask
 from flask import render_template, redirect
 from flask.globals import request
-from flask_login import LoginManager, login_required, login_user
+from flask_login import LoginManager, login_required, login_user, current_user
 import requests
 
+from todo_app.auth.decorators import requireWriter
+from todo_app.auth.user_roles import UserRoles
 from todo_app.data.mongo_db_items import MongoDbItemProvider as ItemProvider
 from todo_app.flask_config import Config
 from todo_app.models.status import Status
@@ -37,6 +39,7 @@ def create_app():
             not_started,
             in_progress,
             done,
+            current_user.role == UserRoles.WRITER,
             show_all_items
         )
         return render_template('index.html', view_model=item_view_model)
@@ -53,6 +56,7 @@ def create_app():
 
     @app.route('/addItem', methods=['POST'])
     @login_required
+    @requireWriter
     def add_item():
         item = request.form.get('add-item')
         item_provider.add_item(item)
@@ -60,24 +64,28 @@ def create_app():
 
     @app.route('/markNotStarted/<id>', methods=['POST'])
     @login_required
+    @requireWriter
     def mark_not_started(id):
         item_provider.update_status(id, Status.NOT_STARTED)
         return redirect('/')
 
     @app.route('/markInProgress/<id>', methods=['POST'])
     @login_required
+    @requireWriter
     def mark_in_progress(id):
         item_provider.update_status(id, Status.IN_PROGRESS)
         return redirect('/')
 
     @app.route('/markDone/<id>', methods=['POST'])
     @login_required
+    @requireWriter
     def mark_done(id):
         item_provider.update_status(id, Status.DONE)
         return redirect('/')
 
     @app.route('/delete/<id>', methods=['POST'])
     @login_required
+    @requireWriter
     def delete_item(id):
         item_provider.delete_item(id)
         return redirect('/')

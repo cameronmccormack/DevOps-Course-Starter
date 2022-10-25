@@ -4,11 +4,19 @@ from datetime import date, datetime
 class ViewModel:
     show_all_done_items_threshold = 5
 
-    def __init__(self, not_started, in_progress, done, show_all_items=False):
+    def __init__(
+        self,
+        not_started,
+        in_progress,
+        done,
+        is_writer,
+        show_all_items=False
+    ):
         self._not_started = not_started
         self._in_progress = in_progress
         self._done = done
         self._treat_all_done_items_as_high_priority = show_all_items
+        self._is_writer = is_writer
 
     @property
     def not_started(self):
@@ -48,3 +56,7 @@ class ViewModel:
                 ).date() >= date.today(),
             self._done
         ))
+
+    @property
+    def is_writer(self):
+        return self._is_writer
