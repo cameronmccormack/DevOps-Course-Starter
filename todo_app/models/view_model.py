@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 
 class ViewModel:
@@ -43,6 +43,8 @@ class ViewModel:
     def recent_done_items(self):
         return list(filter(
             lambda item:
-                item.last_status_change_datetime.date() >= date.today(),
+                datetime.fromisoformat(
+                    item.last_status_change_datetime
+                ).date() >= date.today(),
             self._done
         ))
