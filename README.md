@@ -112,4 +112,4 @@ $ docker-compose -f docker-compose.test-reload.yml up --build
 
 ## Deployed App
 
-The app is deployed to Azure via a CD pipeline on the `main` branch and can be viewed at the following URL: https://cameronmccormack-todo-app.azurewebsites.net/
+The app is deployed to Azure via a CD pipeline on the `main` branch and can be viewed at the following URL: https://preview-todo-app.azurewebsites.net/

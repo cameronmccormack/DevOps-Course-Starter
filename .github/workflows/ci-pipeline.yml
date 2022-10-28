@@ -61,4 +61,4 @@ jobs:
         run: terraform apply -auto-approve
 
       - name: Re-pull image to Azure app
-        run: curl -dH -X POST '$(terraform output -raw webhook_url)' --fail
+        run: curl -dH -X POST $(terraform output -raw webhook_url) --fail
