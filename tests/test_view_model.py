@@ -49,7 +49,7 @@ def item_done_before_today():
 
 @pytest.fixture
 def view_model_without_items():
-    return ViewModel([], [], [])
+    return ViewModel([], [], [], is_writer=True)
 
 
 @pytest.fixture
@@ -62,7 +62,8 @@ def view_model_with_two_completed_items(
     return ViewModel(
         [item_not_started],
         [item_in_progress],
-        [item_done_before_today, item_done_today]
+        [item_done_before_today, item_done_today],
+        is_writer=True
     )
 
 
@@ -76,7 +77,8 @@ def view_model_with_six_completed_items_hiding_old(
     return ViewModel(
         [item_not_started],
         [item_in_progress],
-        [item_done_before_today, item_done_today] * 3
+        [item_done_before_today, item_done_today] * 3,
+        is_writer=True
     )
 
 
@@ -91,6 +93,7 @@ def view_model_with_six_completed_items_showing_old(
         [item_not_started],
         [item_in_progress],
         [item_done_before_today, item_done_today] * 3,
+        is_writer=True,
         show_all_items=True
     )
 
