@@ -113,3 +113,7 @@ $ docker-compose -f docker-compose.test-reload.yml up --build
 ## Deployed App
 
 The app is deployed to Azure via a CD pipeline on the `main` branch and can be viewed at the following URL: https://preview-todo-app.azurewebsites.net/
+
+## Logs
+
+App logs can be found at https://cammccdevops.loggly.com.
