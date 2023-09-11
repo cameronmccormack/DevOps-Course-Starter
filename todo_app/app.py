@@ -2,6 +2,8 @@ from flask import Flask
 from flask import render_template, redirect
 from flask.globals import request
 from flask_login import LoginManager, login_required, login_user, current_user
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
 import requests
 
 from todo_app.auth.decorators import requireWriter
@@ -17,11 +19,19 @@ def create_app():
     app = Flask(__name__)
     config = Config()
     app.config.from_object(config)
+    app.logger.setLevel(app.config['LOG_LEVEL'])
+
+    if app.config['LOGGLY_TOKEN'] is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{app.config["LOGGLY_TOKEN"]}/tag/todo-app')
+        handler.setFormatter(Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
+        app.logger.addHandler(handler)
+
     item_provider = ItemProvider()
     login_manager = LoginManager()
 
     @login_manager.unauthorized_handler
     def unauthenticated():
+        app.logger.info("Redirecting to GitHub login URL")
         return redirect(config.GITHUB_LOGIN_URL)
 
     @login_manager.user_loader
@@ -59,6 +69,7 @@ def create_app():
     @requireWriter
     def add_item():
         item = request.form.get('add-item')
+        app.logger.info(f"Adding item. Item title: {item}. User ID: {current_user.id}.")
         item_provider.add_item(item)
         return redirect('/')
 
@@ -66,6 +77,7 @@ def create_app():
     @login_required
     @requireWriter
     def mark_not_started(id):
+        app.logger.info(f"Marking item as Not Started. Item ID: {id}. User ID: {current_user.id}.")
         item_provider.update_status(id, Status.NOT_STARTED)
         return redirect('/')
 
@@ -73,6 +85,7 @@ def create_app():
     @login_required
     @requireWriter
     def mark_in_progress(id):
+        app.logger.info(f"Marking item as In Progress. Item ID: {id}. User ID: {current_user.id}.")
         item_provider.update_status(id, Status.IN_PROGRESS)
         return redirect('/')
 
@@ -80,6 +93,7 @@ def create_app():
     @login_required
     @requireWriter
     def mark_done(id):
+        app.logger.info(f"Marking item as Done. Item ID: {id}. User ID: {current_user.id}.")
         item_provider.update_status(id, Status.DONE)
         return redirect('/')
 
@@ -87,6 +101,7 @@ def create_app():
     @login_required
     @requireWriter
     def delete_item(id):
+        app.logger.info(f"Deleting item. Item ID: {id}. User ID: {current_user.id}.")
         item_provider.delete_item(id)
         return redirect('/')
 
@@ -112,6 +127,7 @@ def create_app():
             }
         ).json()["id"]
 
+        app.logger.info(f"Logging in user with ID {user_id}.")
         user = User(user_id)
         login_user(user)
 

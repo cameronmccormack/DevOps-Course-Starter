@@ -23,6 +23,12 @@ class Config:
 
         self.LOGIN_DISABLED = os.environ.get('LOGIN_DISABLED') == 'True'
 
+        self.LOG_LEVEL = os.environ.get('LOG_LEVEL')
+        if not self.LOG_LEVEL:
+            self.throw_missing_env_error('LOG_LEVEL')
+
+        self.LOGGLY_TOKEN = os.environ.get('LOGGLY_TOKEN')
+
     def throw_missing_env_error(key):
         raise ValueError(
                 f"No {key} set for Flask application. " +

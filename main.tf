@@ -48,6 +48,8 @@ resource "azurerm_linux_web_app" "main" {
     "DB_PRIMARY_CONNECTION_STRING"  = azurerm_cosmosdb_account.main.connection_strings[0]
     "DB_NAME"                       = azurerm_cosmosdb_mongo_database.main.name
     "SECRET_KEY"                    = "${var.flask_secret}"
+    "LOGGLY_TOKEN"                  = "${var.loggly_token}"
+    "LOG_LEVEL"                     = "ERROR"
   }
 }
 

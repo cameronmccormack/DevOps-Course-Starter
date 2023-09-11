@@ -13,3 +13,7 @@ variable "github_secret" {
 variable "flask_secret" {
     sensitive = true
 }
+
+variable "loggly_token" {
+    sensitive = true
+}
